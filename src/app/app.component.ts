@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'udemy-course';
+  title = 'udemy-course tutorial';
+  
+  onCustomClick(eventData: string): void {
+    // Handle the custom event
+    console.log('Custom event clicked with data:', eventData);
+  }
 }

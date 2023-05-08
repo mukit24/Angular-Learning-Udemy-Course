@@ -1,0 +1,8 @@
+<h2>{{title}}</h2>
+<p>Allow Button is {{allowButton}}</p>
+<h4 *ngIf="serverStatus">{{buttonStatus}}</h4>
+<input type="text" #serverNameInput>
+<button [disabled]="!allowButton" (click)="onServerCreated(serverNameInput)">Submit</button>
+<hr>
+<ng-content></ng-content>
+<button (click)="onClick()">Click me</button>
