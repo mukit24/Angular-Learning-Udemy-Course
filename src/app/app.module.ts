@@ -8,12 +8,16 @@ import { HomeComponent } from './home/home.component';
 import { UsersComponent } from './users/users.component';
 import { Routes, RouterModule } from '@angular/router';
 import { UserComponent } from './users/user/user.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'users', component: UsersComponent },
-  { path: 'users/:id', component: UserComponent }
-]
+  { path: 'users', component: UsersComponent, children: [
+    { path: ':id', component: UserComponent }
+  ] },
+  { path: 'not-found', component: NotFoundComponent},
+  { path: '**', redirectTo: '/not-found'},
+];
 
 @NgModule({
   declarations: [
@@ -21,7 +25,8 @@ const appRoutes: Routes = [
     Component1Component,
     HomeComponent,
     UsersComponent,
-    UserComponent
+    UserComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,
