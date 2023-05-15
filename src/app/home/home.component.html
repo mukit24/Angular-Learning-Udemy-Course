@@ -1,2 +1,13 @@
 <p>home works!</p>
 <button (click)="onNavigate()">Navigate To Users</button>
+<hr>
+<h3>Template driven form</h3>
+<form (ngSubmit)="onSubmit()" #f="ngForm">
+    <label for="name">Name</label>
+    <br>
+    <input type="text" name="name" required ngModel #name="ngModel">
+    <small *ngIf="!name.valid && name.touched">Please add a name</small>
+    <button (click)="onSuggest()">Suggest a name</button>
+    <button type="submit" [disabled]="!f.valid">Submit</button>
+</form>
+<h3 *ngIf="isSubmit">Your Name is {{username}}</h3>
