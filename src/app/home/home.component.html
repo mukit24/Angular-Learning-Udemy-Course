@@ -11,3 +11,10 @@
     <button type="submit" [disabled]="!f.valid">Submit</button>
 </form>
 <h3 *ngIf="isSubmit">Your Name is {{username}}</h3>
+<hr>
+<h3>Reactive Form</h3>
+<form [formGroup]="form2" (ngSubmit)="onSubmitForm2()">
+    <input type="text" formControlName="title">
+    <small *ngIf="!form2.get('title').valid && form2.get('title').touched">Please add a title</small>
+    <button type="submit">Submit</button>
+</form>

@@ -1,5 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -7,11 +7,18 @@ import { Router } from '@angular/router';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   constructor(private router: Router){}
   @ViewChild('f') form1: NgForm;
   username = '';
   isSubmit = false;
+  form2: FormGroup;
+
+  ngOnInit(): void {
+    this.form2 = new FormGroup({
+      'title': new FormControl(null, [Validators.required])
+    })
+  }
 
   onNavigate(){
     this.router.navigate(['/users'], {queryParams: {have_user: true}});
@@ -22,6 +29,10 @@ export class HomeComponent {
     this.isSubmit = true;
     this.username = this.form1.value.name;
     this.form1.reset();
+  }
+
+  onSubmitForm2(){
+    console.log(this.form2);
   }
 
   onSuggest(){
