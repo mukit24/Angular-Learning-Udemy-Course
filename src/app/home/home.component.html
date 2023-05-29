@@ -18,3 +18,10 @@
     <small *ngIf="!form2.get('title').valid && form2.get('title').touched">Please add a title</small>
     <button type="submit">Submit</button>
 </form>
+<hr>
+<h2>Posts are-</h2>
+<button (click)="onClear()">Clear ALL POST</button>
+<h5 *ngIf="posts?.length < 1">No Posts Available</h5>
+<div *ngIf="posts?.length >= 1">
+    <h3 *ngFor="let post of posts">{{post.title}}</h3>
+</div>

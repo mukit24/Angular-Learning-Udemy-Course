@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { map } from 'rxjs';
+import { PostService } from './post.service';
 
 @Component({
   selector: 'app-home',
@@ -10,12 +10,12 @@ import { map } from 'rxjs';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  constructor(private router: Router, private http: HttpClient){}
+  constructor(private router: Router, private http: HttpClient, private postService: PostService) { }
   @ViewChild('f') form1: NgForm;
   username = '';
   isSubmit = false;
   form2: FormGroup;
-  
+  posts: any[];
 
   ngOnInit(): void {
     this.form2 = new FormGroup({
@@ -25,44 +25,42 @@ export class HomeComponent implements OnInit {
     this.getPosts();
   }
 
-  onNavigate(){
-    this.router.navigate(['/users'], {queryParams: {have_user: true}});
+  onNavigate() {
+    this.router.navigate(['/users'], { queryParams: { have_user: true } });
   }
 
-  onSubmit(){
+  onSubmit() {
     // console.log(this.form1);
     this.isSubmit = true;
     this.username = this.form1.value.name;
     this.form1.reset();
   }
 
-  onSubmitForm2(){
+  onSubmitForm2() {
     // console.log(this.form2.value.title);
     const postData = {
-      title : this.form2.value.title
+      title: this.form2.value.title
     }
-
-    this.http.post('https://learn-angular-63c57-default-rtdb.firebaseio.com/posts.json', postData).subscribe( response => {
+    
+    this.postService.createPost(postData).subscribe(response => {
       console.log(response);
+      this.getPosts();
+    })
+    this.form2.reset();
+  }
+
+  getPosts() {
+    this.postService.fetchPost().subscribe(data => this.posts = data);
+  }
+
+  onClear(){
+    this.postService.deletePosts().subscribe((data) => {
+      console.log(data);
+      this.posts = []
     })
   }
 
-  getPosts(){
-    this.http.get('https://learn-angular-63c57-default-rtdb.firebaseio.com/posts.json')
-    .pipe(
-      map(responseData => {
-        const postArray = [];
-        for (let key in responseData){
-          // console.log(responseData[key]);
-          postArray.push({...responseData[key], id: key})
-        }
-        return postArray;
-      })
-    )
-    .subscribe(data => console.log(data));
-  }
-
-  onSuggest(){
+  onSuggest() {
     // setValue for setting whole form value
     this.form1.form.patchValue({
       name: 'Mukit'
