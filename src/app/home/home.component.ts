@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit {
   isSubmit = false;
   form2: FormGroup;
   posts: any[];
+  error = null;
 
   ngOnInit(): void {
     this.form2 = new FormGroup({
@@ -50,7 +51,15 @@ export class HomeComponent implements OnInit {
   }
 
   getPosts() {
-    this.postService.fetchPost().subscribe(data => this.posts = data);
+    this.postService.fetchPost().subscribe(
+      data => {
+        console.log(data);
+        this.posts = data
+      }, 
+      error => {
+        console.log(error.message);
+        this.error = error.message;
+    });
   }
 
   onClear(){

@@ -25,3 +25,7 @@
 <div *ngIf="posts?.length >= 1">
     <h3 *ngFor="let post of posts">{{post.title}}</h3>
 </div>
+<div [style.color]="'red'" *ngIf="error">
+    <h3>Error Occured</h3>
+    <p>{{error}}</p>
+</div>
